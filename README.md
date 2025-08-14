@@ -3,3 +3,4 @@
 first function is 'total_salary'
 second function is 'get_cats_info'
 
+## Task 3 is done in directory [dir_viewer](https://github.com/dualspectre/goit-algo-hw-04/tree/main/dir_viewer)
