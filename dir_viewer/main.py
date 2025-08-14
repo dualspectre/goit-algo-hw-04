@@ -1,8 +1,16 @@
 from colorama import Fore, Style
-from sys import argv
+from sys import argv, exit
 from pathlib import Path
 
-def path_tree(path:Path,lvl:int = 0):
+#function of visualisation path directory
+def path_tree(path:Path,lvl:int = 0) -> None:
+    """
+    Function of visualisation path directory
+    Input:
+    path: Path - the directory path to visualize
+    lvl: int - the current level of depth in the directory tree
+    Return: None    
+    """
     tab_symbol = "   "
     print(Fore.BLUE + tab_symbol*lvl + path.name + '\\' +Style.RESET_ALL)
     
@@ -15,13 +23,26 @@ def path_tree(path:Path,lvl:int = 0):
 
 
 def main():
-    folder_path = Path(argv[1])
-    # print(folder_path.iterdir())
-    # for item in folder_path.iterdir():
-    #     if item.is_dir():
-    #         # folder_string = 
-    #         print(item)
-    path_tree(folder_path)
+    if len(argv) != 2:
+        print("Usage: python main.py <path_to_directory>")
+        exit()
+    
+    path = argv[1]
+    folder_path = Path(path)
+ 
+    if folder_path.exists() and folder_path.is_dir():
+        try:
+            path_tree(folder_path)
+        except PermissionError:
+            print(f'Permission denied while accessing {folder_path}')
+        except Exception as e:
+            print(f'Error occurred while accessing {folder_path}: {e}')
+        finally:
+            exit()
+    else:
+        print(f'Invalid directory: {folder_path}')
+        exit()
+    
 
 if __name__ == "__main__":
     main()
