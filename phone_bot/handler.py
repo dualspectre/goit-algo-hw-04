@@ -1,6 +1,8 @@
 import re
 
+# Regular expression pattern for validating phone numbers
 pattern = r"^[+]?\d{9,12}$"
+
 #function of parsing user input command
 def parse_input(user_input): 
     """
@@ -11,65 +13,62 @@ def parse_input(user_input):
     return cmd, *args
 
 #function of adding a contact
-def add_contact(args, contacts):
+def add_contact(args, contacts: dict) -> bool:
     """
     Adds a new contact to the contacts dictionary.
     Input: args - list of arguments, contacts - dictionary of contacts
+
+    Return: bool - True if contact was added, False otherwise
     """
-    if len(args) < 2:
-        print("Usage: add <name> <phone>")
-    else:
-        name, phone = args
-        condition = bool(re.fullmatch(pattern, phone))
-        if condition:
-            contacts[name] = phone
-            print("Contact added.")
-        else:
-            print("Invalid phone number format. Please use a valid format (9-12 digits).")
+    name, phone = args
+    condition = bool(re.fullmatch(pattern, phone))
+    if condition:
+        contacts[name] = phone
+    return condition
+
 
 #function of changing a contact
-def change_contact(args, contacts):
+def change_contact(args, contacts: dict) -> bool:
     """
     Changes an existing contact in the contacts dictionary.
     Input: args - list of arguments, contacts - dictionary of contacts
+
+    Return: bool - True if contact was changed, False otherwise
     """
-    if len(args) < 2:
-        print("Usage: change <name> <phone>")
-    else:
-        name, phone = args
-        if name not in contacts:
-            print("Contact not found.")
-            return
-        condition = bool(re.fullmatch(pattern, phone))
-        if condition:
-            contacts[name] = phone
-            print("Phone number changed.")
-        else:
-            print("Invalid phone number format. Please use a valid format (9-12 digits).")
+    
+    name, phone = args            
+    condition = bool(re.fullmatch(pattern, phone))
+    if condition:
+        contacts[name] = phone
+    return condition
 
 #function of showing a contact's phone number
-def show_phone_number(args, contacts):
+def show_phone_number(args, contacts: dict) -> str:
     """
     Shows a contact's phone number.
     Input: args - list of arguments, contacts - dictionary of contacts
+
+    Return: str - the contact's phone number or an error message
     """
-    if len(args) < 1:
-        print("Usage: phone <name>")
+    
+    name = args[0]
+    if name in contacts:
+        return f"{name}: {contacts[name]}"
     else:
-        name = args[0]
-        if name in contacts:
-            print(f"{name}: {contacts[name]}")
-        else:
-            print("Contact not found.")
+        return "Contact not found."
 
 #function of showing all contacts
-def show_all_contacts(contacts):
+def show_all_contacts(contacts: dict) -> str:
     """
     Shows all contacts in the contacts dictionary.
     Input: contacts - dictionary of contacts
+
+    Return: str - all contacts or an error message
     """
     if not contacts:
-        print("No contacts found.")
+        return "No contacts found."
     else:
+        result = ""
         for name, phone in contacts.items():
-            print(f"{name}: {phone}")
+            result += f"{name}: {phone}\n"
+        return result.strip()

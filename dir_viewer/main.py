@@ -38,11 +38,11 @@ def main():
         except Exception as e:
             print(f'Error occurred while accessing {folder_path}: {e}')
         finally:
-            exit()
+            return
     else:
         print(f'Invalid directory: {folder_path}')
-        exit()
-    
+        return
+
 
 if __name__ == "__main__":
     main()
