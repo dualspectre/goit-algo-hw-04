@@ -25,7 +25,7 @@ def path_tree(path:Path,lvl:int = 0) -> None:
 def main():
     if len(argv) != 2:
         print("Usage: python main.py <path_to_directory>")
-        exit()
+        return
     
     path = argv[1]
     folder_path = Path(path)
